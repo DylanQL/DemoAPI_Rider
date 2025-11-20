@@ -30,6 +30,9 @@ namespace DemoAPI_Rider.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCourse"));
 
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
+
                     b.Property<int>("Credit")
                         .HasColumnType("int");
 
@@ -49,6 +52,9 @@ namespace DemoAPI_Rider.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEnrollment"));
+
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -76,6 +82,9 @@ namespace DemoAPI_Rider.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdGrade"));
 
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,6 +105,9 @@ namespace DemoAPI_Rider.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdStudent"));
+
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
