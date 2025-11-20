@@ -20,88 +20,35 @@ namespace DemoAPI_Rider.Controllers
             _context = context;
         }
 
-        // GET: api/StudentCustom
+        // GET: api/StudentCustom/SearchStudents?firstName=Juan&lastName=Perez&email=juan@example.com
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+        public async Task<ActionResult<IEnumerable<Student>>> SearchStudents(
+            [FromQuery] string? firstName = null,
+            [FromQuery] string? lastName = null,
+            [FromQuery] string? email = null)
         {
-            return await _context.Students.ToListAsync();
-        }
+            var query = _context.Students
+                .Include(s => s.Grade)
+                .Where(s => s.Active == 1);
 
-        // GET: api/StudentCustom/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
-        {
-            var student = await _context.Students.FindAsync(id);
-
-            if (student == null)
+            if (!string.IsNullOrEmpty(firstName))
             {
-                return NotFound();
+                query = query.Where(s => s.FirstName.Contains(firstName));
             }
 
-            return student;
-        }
-
-        // PUT: api/StudentCustom/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent(int id, Student student)
-        {
-            if (id != student.IdStudent)
+            if (!string.IsNullOrEmpty(lastName))
             {
-                return BadRequest();
+                query = query.Where(s => s.LastName.Contains(lastName));
             }
 
-            _context.Entry(student).State = EntityState.Modified;
-
-            try
+            if (!string.IsNullOrEmpty(email))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                query = query.Where(s => s.Email.Contains(email));
             }
 
-            return NoContent();
-        }
+            var students = await query.OrderByDescending(s => s.LastName).ToListAsync();
 
-        // POST: api/StudentCustom
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
-        {
-            _context.Students.Add(student);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetStudent", new { id = student.IdStudent }, student);
-        }
-
-        // DELETE: api/StudentCustom/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudent(int id)
-        {
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.IdStudent == id);
+            return students;
         }
     }
 }
