@@ -93,8 +93,8 @@ namespace DemoAPI_Rider.Controllers
                 return NotFound();
             }
 
-            _context.Enrollments.Remove(enrollment);
-            await _context.SaveChangesAsync();
+            enrollment.Active = 0;
+            _context.Entry(enrollment).State = EntityState.Modified;
 
             return NoContent();
         }

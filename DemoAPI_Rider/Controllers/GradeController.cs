@@ -93,8 +93,8 @@ namespace DemoAPI_Rider.Controllers
                 return NotFound();
             }
 
-            _context.Grades.Remove(grade);
-            await _context.SaveChangesAsync();
+            grade.Active = 0;
+            _context.Entry(grade).State = EntityState.Modified;
 
             return NoContent();
         }
