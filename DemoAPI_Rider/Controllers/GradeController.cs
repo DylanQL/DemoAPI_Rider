@@ -22,36 +22,36 @@ namespace DemoAPI_Rider.Controllers
 
         // GET: api/Grade
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        public async Task<ActionResult<IEnumerable<Grade>>> GetGrades()
         {
-            return await _context.Courses.ToListAsync();
+            return await _context.Grades.ToListAsync();
         }
 
         // GET: api/Grade/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
+        public async Task<ActionResult<Grade>> GetGrade(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var grade = await _context.Grades.FindAsync(id);
 
-            if (course == null)
+            if (grade == null)
             {
                 return NotFound();
             }
 
-            return course;
+            return grade;
         }
 
         // PUT: api/Grade/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+        public async Task<IActionResult> PutGrade(int id, Grade grade)
         {
-            if (id != course.IdCourse)
+            if (id != grade.IdGrade)
             {
                 return BadRequest();
             }
 
-            _context.Entry(course).State = EntityState.Modified;
+            _context.Entry(grade).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace DemoAPI_Rider.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourseExists(id))
+                if (!GradeExists(id))
                 {
                     return NotFound();
                 }
@@ -75,33 +75,33 @@ namespace DemoAPI_Rider.Controllers
         // POST: api/Grade
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
-            _context.Courses.Add(course);
+            _context.Grades.Add(grade);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCourse", new { id = course.IdCourse }, course);
+            return CreatedAtAction("GetGrade", new { id = grade.IdGrade }, grade);
         }
 
         // DELETE: api/Grade/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCourse(int id)
+        public async Task<IActionResult> DeleteGrade(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var grade = await _context.Grades.FindAsync(id);
+            if (grade == null)
             {
                 return NotFound();
             }
 
-            _context.Courses.Remove(course);
+            _context.Grades.Remove(grade);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CourseExists(int id)
+        private bool GradeExists(int id)
         {
-            return _context.Courses.Any(e => e.IdCourse == id);
+            return _context.Grades.Any(e => e.IdGrade == id);
         }
     }
 }
