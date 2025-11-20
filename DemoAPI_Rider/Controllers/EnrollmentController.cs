@@ -24,7 +24,7 @@ namespace DemoAPI_Rider.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Enrollment>>> GetEnrollments()
         {
-            return await _context.Enrollments.ToListAsync();
+            return await _context.Enrollments.Where(c => c.Active == 1).ToListAsync();
         }
 
         // GET: api/Enrollment/5
