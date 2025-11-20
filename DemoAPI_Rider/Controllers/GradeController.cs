@@ -95,6 +95,7 @@ namespace DemoAPI_Rider.Controllers
 
             grade.Active = 0;
             _context.Entry(grade).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

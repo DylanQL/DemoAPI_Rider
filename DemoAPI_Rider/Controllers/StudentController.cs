@@ -95,6 +95,7 @@ namespace DemoAPI_Rider.Controllers
 
             student.Active = 0;
             _context.Entry(student).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
