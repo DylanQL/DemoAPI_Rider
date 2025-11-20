@@ -24,14 +24,19 @@ namespace DemoAPI_Rider.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            return await _context.Students.Where(c => c.Active == 1).ToListAsync();
+            return await _context.Students
+                .Include(s => s.Grade)
+                .Where(c => c.Active == 1)
+                .ToListAsync();
         }
 
         // GET: api/Student/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = await _context.Students
+                .Include(s => s.Grade)
+                .FirstOrDefaultAsync(s => s.IdStudent == id);
 
             if (student == null)
             {

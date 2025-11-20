@@ -24,14 +24,21 @@ namespace DemoAPI_Rider.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Enrollment>>> GetEnrollments()
         {
-            return await _context.Enrollments.Where(c => c.Active == 1).ToListAsync();
+            return await _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .Where(c => c.Active == 1)
+                .ToListAsync();
         }
 
         // GET: api/Enrollment/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Enrollment>> GetEnrollment(int id)
         {
-            var enrollment = await _context.Enrollments.FindAsync(id);
+            var enrollment = await _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .FirstOrDefaultAsync(e => e.IdEnrollment == id);
 
             if (enrollment == null)
             {
