@@ -11,6 +11,7 @@ public class Student
     public string LastName { get; set; }
     public string Phone { get; set; }
     public string Email { get; set; }
+    public int Active { get; set; }
     
     //Navigation Properties
     public Grade Grade { get; set; }

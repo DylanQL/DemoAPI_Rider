@@ -9,6 +9,7 @@ public class Enrollment
     public int StudentId { get; set; }
     public int CourseId { get; set; }
     public DateTime Date { get; set; }
+    public int Active { get; set; }
     
     //Navigation Properties
     public Student Student { get; set; }
